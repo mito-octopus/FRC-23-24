@@ -17,7 +17,12 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
   public static class DriveTrainConstants {
-  public static final int kLeftMotorPort = 1;
-  public static final int kRightMotorPort = 3;
+    public static final int kLeftMotorPort = 1;
+    public static final int kRightMotorPort = 3;
+    public static final int kEncoderPortRight1 = 6;
+    public static final int kEncoderPortRight2 = 5;
+    public static final int kEncoderPortLeft1 = 1;
+    public static final int kEncoderPortLeft2 = 2;
+
   }
 }
