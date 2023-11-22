@@ -19,8 +19,6 @@ public class ArcadeDrive extends CommandBase {
     this.speedFunction = speedFunction;
     this.turnFunction = turnFunction;
 
-
-
     this.driveTrain = driveTrain;
     addRequirements(driveTrain);
 
@@ -35,7 +33,6 @@ public class ArcadeDrive extends CommandBase {
   @Override
   public void execute() {
     driveTrain.getDriveTrain().arcadeDrive(speedFunction.get(), turnFunction.get());
-
   }
 
 
