@@ -6,8 +6,10 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -20,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveTrain m_driveTrain = new DriveTrain();
+  private final Arm m_arm = new Arm();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -42,14 +45,8 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-
+    m_driverController.a().whileTrue(new StartEndCommand(() -> m_arm.setMotor(1), () -> m_arm.setMotor(0), m_arm));
   }
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    
-
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-    
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

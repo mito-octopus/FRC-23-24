@@ -36,22 +36,45 @@ public class DriveTrain extends SubsystemBase {
    
   public DriveTrain() {
     leftMotor.setInverted(true);
+
     SmartDashboard.putData("field", field);
   }
-
 
   public void setMotors(double left, double right) {
     leftMotor.set(left);
     rightMotor.set(right);
   }
 
+  public double getRightEncoderPosition(){
+    return sensorRight.getIntegratedSensorPosition() * DriveTrainConstants.sensorFactor;
+  }
+
+  public double getLeftEncoderPosition(){
+    return sensorLeft.getIntegratedSensorPosition() * DriveTrainConstants.sensorFactor;
+  }
+
+  public double getRightEncoderVelocity(){
+    return sensorRight.getIntegratedSensorVelocity() * DriveTrainConstants.sensorFactor;
+  }
+
+  public double getLeftEncoderVelocity(){
+    return sensorLeft.getIntegratedSensorVelocity() * DriveTrainConstants.sensorFactor;
+  }
+
+  public double getHeading(){
+    return gyroscope.getRotation2d().getDegrees();
+  }
+
+  public double getTurnRate(){
+    return -gyroscope.getRate();
+  }
 
   public DifferentialDrive getDriveTrain() {
     return drive;
   }
+
   @Override
   public void periodic() {
-
     odometry.update(gyroscope.getRotation2d(), sensorRight.getIntegratedSensorPosition() * DriveTrainConstants.sensorFactor, sensorLeft.getIntegratedSensorPosition() * DriveTrainConstants.sensorFactor);
     field.setRobotPose(odometry.getPoseMeters());
   }

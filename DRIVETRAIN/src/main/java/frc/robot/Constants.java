@@ -25,6 +25,9 @@ public final class Constants {
     // this is basically a factor that, when multiplied by the integrated falcon sensor reading, will give 
     // an indication of how many meters that wheel has turned (r * 2 * pi = the circumerence / 2048, which is the number of ticks outputted for a full rotation)
     public static final double sensorFactor = 0.3 * 2.0 * Math.PI / 2048.0;  // CHANGE THE FIRST VALUE TO BE ACTUAL RADIUS
+  }
 
+  public static class ArmConstants {
+    public static final int kArmMotorPort = 0;
   }
 }
