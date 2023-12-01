@@ -4,15 +4,9 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.TalonFXSensorCollection;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.kauailabs.navx.frc.AHRS;
-
-import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveTrainConstants;
 
@@ -24,20 +18,20 @@ public class DriveTrain extends SubsystemBase {
   private final MotorControllerGroup leftMotor = new MotorControllerGroup(left1, new WPI_TalonFX(DriveTrainConstants.kLeftTalonID2));
   private final MotorControllerGroup rightMotor = new MotorControllerGroup(right1, new WPI_TalonFX(DriveTrainConstants.kRightTalonID2));
 
-  public final TalonFXSensorCollection sensorRight =  new TalonFXSensorCollection(right1);
-  public final TalonFXSensorCollection sensorLeft =  new TalonFXSensorCollection(left1);
+  //public final TalonFXSensorCollection sensorRight =  new TalonFXSensorCollection(right1);
+  //public final TalonFXSensorCollection sensorLeft =  new TalonFXSensorCollection(left1);
   
   private final DifferentialDrive drive = new DifferentialDrive(leftMotor, rightMotor);
 
-  private final AHRS gyroscope = new AHRS();
+  //private final AHRS gyroscope = new AHRS();
 
-  private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(gyroscope.getRotation2d(), sensorRight.getIntegratedSensorPosition() * DriveTrainConstants.sensorFactor, sensorLeft.getIntegratedSensorPosition() * DriveTrainConstants.sensorFactor);
-  private final Field2d field = new Field2d();
+  //private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(gyroscope.getRotation2d(), sensorRight.getIntegratedSensorPosition() * DriveTrainConstants.sensorFactor, sensorLeft.getIntegratedSensorPosition() * DriveTrainConstants.sensorFactor);
+  //private final Field2d field = new Field2d();
    
   public DriveTrain() {
     leftMotor.setInverted(true);
 
-    SmartDashboard.putData("field", field);
+    //SmartDashboard.putData("field", field);
   }
 
   public void setMotors(double left, double right) {
@@ -45,6 +39,7 @@ public class DriveTrain extends SubsystemBase {
     rightMotor.set(right);
   }
 
+  /* 
   public double getRightEncoderPosition(){
     return sensorRight.getIntegratedSensorPosition() * DriveTrainConstants.sensorFactor;
   }
@@ -68,6 +63,7 @@ public class DriveTrain extends SubsystemBase {
   public double getTurnRate(){
     return -gyroscope.getRate();
   }
+  */
 
   public DifferentialDrive getDriveTrain() {
     return drive;
@@ -75,8 +71,8 @@ public class DriveTrain extends SubsystemBase {
 
   @Override
   public void periodic() {
-    odometry.update(gyroscope.getRotation2d(), sensorRight.getIntegratedSensorPosition() * DriveTrainConstants.sensorFactor, sensorLeft.getIntegratedSensorPosition() * DriveTrainConstants.sensorFactor);
-    field.setRobotPose(odometry.getPoseMeters());
+    //odometry.update(gyroscope.getRotation2d(), sensorRight.getIntegratedSensorPosition() * DriveTrainConstants.sensorFactor, sensorLeft.getIntegratedSensorPosition() * DriveTrainConstants.sensorFactor);
+    //field.setRobotPose(odometry.getPoseMeters());
   }
 
   @Override

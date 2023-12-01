@@ -10,6 +10,8 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
+//import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -25,8 +27,8 @@ public class RobotContainer {
   private final Arm m_arm = new Arm();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final CommandPS4Controller m_driverController =
+      new CommandPS4Controller(OperatorConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -45,7 +47,7 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    m_driverController.a().whileTrue(new StartEndCommand(() -> m_arm.setMotor(1), () -> m_arm.setMotor(0), m_arm));
+    m_driverController.button(1).whileTrue(new StartEndCommand(() -> m_arm.setMotor(1), () -> m_arm.setMotor(0), m_arm));
   }
 
   /**

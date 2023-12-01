@@ -22,6 +22,8 @@ public final class Constants {
     public static final int kRightTalonID1 = 2;
     public static final int kRightTalonID2 = 3;
 
+
+    public static final double kMaxAccelerationUnitsPerSecond = 3;
     // this is basically a factor that, when multiplied by the integrated falcon sensor reading, will give 
     // an indication of how many meters that wheel has turned (r * 2 * pi = the circumerence / 2048, which is the number of ticks outputted for a full rotation)
     public static final double sensorFactor = 0.3 * 2.0 * Math.PI / 2048.0;  // CHANGE THE FIRST VALUE TO BE ACTUAL RADIUS
