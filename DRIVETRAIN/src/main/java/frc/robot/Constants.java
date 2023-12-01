@@ -31,5 +31,6 @@ public final class Constants {
 
   public static class ArmConstants {
     public static final int kArmMotorPort = 0;
+    public static final int kPotPort = 5;
   }
 }
