@@ -4,12 +4,21 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Arm;
 
 public class RaiseToAngle extends CommandBase {
+  PIDController pid = new PIDController(2, 0, 0);
+  Arm arm;
+  double angle;
   /** Creates a new RaiseToAngle. */
-  public RaiseToAngle() {
+  public RaiseToAngle(Arm arm, double angle) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.angle = angle;
+    this.arm = arm;
+
+    addRequirements(arm);
   }
 
   // Called when the command is initially scheduled.
@@ -18,7 +27,9 @@ public class RaiseToAngle extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    arm.setMotor(pid.calculate(arm.getArmAngleDegrees(), angle))
+  }
 
   // Called once the command ends or is interrupted.
   @Override
