@@ -28,7 +28,7 @@ public class RaiseToAngle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    arm.setMotor(pid.calculate(arm.getArmAngleDegrees(), angle))
+    arm.setMotor(pid.calculate(arm.getArmAngleDegrees(), angle));
   }
 
   // Called once the command ends or is interrupted.

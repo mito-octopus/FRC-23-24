@@ -6,8 +6,11 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -52,7 +55,18 @@ public class SwerveSubsystem extends SubsystemBase {
     DriveTrainConstants.bottomRightAbsoluteEncoderOffset
   );
 
-  private AHRS gyroscope = new AHRS();
+  private final AHRS gyroscope = new AHRS();
+
+  private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(
+    DriveTrainConstants.kDriveKinematics, 
+    gyroscope.getRotation2d(),
+    new SwerveModulePosition[] {
+      topLeft.getPosition(),
+      topRight.getPosition(),
+      bottomLeft.getPosition(),
+      bottomRight.getPosition()
+    }
+  );
 
   /** Creates a new SwerveSubsystem. */
   public SwerveSubsystem() {
@@ -76,9 +90,26 @@ public class SwerveSubsystem extends SubsystemBase {
     return Rotation2d.fromDegrees(getHeading());
   }
 
+  public Pose2d getPose() {
+    return odometer.getPoseMeters();
+  }
+
+  public void resetOdometry (Pose2d pose) {
+    odometer.resetPosition(getRotation2d(), new SwerveModulePosition[] {
+      topLeft.getPosition(), topRight.getPosition(),
+      bottomLeft.getPosition(), bottomRight.getPosition()
+    }, pose);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    odometer.update(getRotation2d(), new SwerveModulePosition[] {
+      topLeft.getPosition(), topRight.getPosition(),
+      bottomLeft.getPosition(), bottomRight.getPosition()
+    });
+
+    
     SmartDashboard.putNumber("Robot Heading", getHeading());
   }
 
