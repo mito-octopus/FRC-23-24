@@ -8,6 +8,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -118,6 +119,11 @@ public class SwerveSubsystem extends SubsystemBase {
     topRight.stop();
     bottomLeft.stop();
     bottomRight.stop();
+  }
+
+  public void setChassisSpeeds(ChassisSpeeds speeds){
+    SwerveModuleState[] moduleStates = DriveTrainConstants.kDriveKinematics.toSwerveModuleStates(speeds);
+    setModuleStates(moduleStates);
   }
 
   public void setModuleStates(SwerveModuleState[] desiredStates) {

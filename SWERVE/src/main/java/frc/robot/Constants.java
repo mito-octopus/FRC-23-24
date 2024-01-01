@@ -90,6 +90,22 @@ public final class Constants {
       new Translation2d(-wheelBase/2, -trackWidth/2),
       new Translation2d(-wheelBase/2, trackWidth/2)
     );
+
+    // info for trajectory following
+    public static final double kPx = 1.0;
+    public static final double kIx = 0;
+    public static final double kDx = 0;
+
+    public static final double kPy = 1.0;
+    public static final double kIy = 0;
+    public static final double kDy = 0;
+
+    public static final double kPr = 1.0;
+    public static final double kIr = 0;
+    public static final double kDr = 0;
+
+    public static final double kMaxRotVelocityRad = 6.28;
+    public static final double kMaxRotAccelerationRad = 3.14;
   }
 
 }

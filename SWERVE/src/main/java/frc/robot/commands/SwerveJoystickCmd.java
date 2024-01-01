@@ -8,7 +8,6 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.Constants.OIConstants;
@@ -67,10 +66,8 @@ public class SwerveJoystickCmd extends CommandBase {
     } else {
       chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
     }
-
-    SwerveModuleState[] moduleStates = DriveTrainConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
     
-    swerveSubsystem.setModuleStates(moduleStates);
+    swerveSubsystem.setChassisSpeeds(chassisSpeeds);
   }
 
   // Called once the command ends or is interrupted.
