@@ -32,7 +32,7 @@ public class SwerveJoystickCmd extends CommandBase {
 
     this.xLimiter = new SlewRateLimiter(DriveTrainConstants.kDriveMaxAcceleration);
     this.yLimiter = new SlewRateLimiter(DriveTrainConstants.kDriveMaxAcceleration);
-    this.turningLimiter = new SlewRateLimiter(DriveTrainConstants.kDriveMaxAngularAcceleration);
+    this.turningLimiter = new SlewRateLimiter(DriveTrainConstants.kDriveMaxAngularAccelerationDegrees);
 
     addRequirements(swerveSubsystem);
   }
@@ -57,7 +57,7 @@ public class SwerveJoystickCmd extends CommandBase {
     // rate limit
     xSpeed = xLimiter.calculate(xSpeed) * DriveTrainConstants.physicalMaxSpeed/4;
     ySpeed = yLimiter.calculate(ySpeed)* DriveTrainConstants.physicalMaxSpeed/4;
-    turningSpeed = turningLimiter.calculate(turningSpeed)* DriveTrainConstants.kDriveMaxAngularAcceleration;
+    turningSpeed = turningLimiter.calculate(turningSpeed)* DriveTrainConstants.kDriveMaxAngularAccelerationDegrees;
   
     // convert to chassis speeds
     ChassisSpeeds chassisSpeeds;

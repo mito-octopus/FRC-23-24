@@ -29,7 +29,7 @@ public final class Constants {
 
     // max acceleration desired
     public static double kDriveMaxAcceleration = 2.5;
-    public static double kDriveMaxAngularAcceleration = 180;
+    public static double kDriveMaxAngularAccelerationDegrees = 180;
 
     // pid to be tuned later
     public static double kPTurning = 1;
