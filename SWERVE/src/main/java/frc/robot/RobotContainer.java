@@ -13,10 +13,15 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 public class RobotContainer {
   
+  // store swerve subsystem
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-  private final PS4Controller driverJoystick = new PS4Controller(OIConstants.driverControllerPort);
+
+  // store a playstation controller
+  private final PS4Controller driverJoystick = new PS4Controller(OIConstants.kControllerPort);
 
   public RobotContainer() {
+
+    // by default the swerve will run the joystick command
     swerveSubsystem.setDefaultCommand(
       new SwerveJoystickCmd(
         swerveSubsystem,
@@ -32,6 +37,11 @@ public class RobotContainer {
   private void configureBindings() {}
 
   public Command getAutonomousCommand() {
+
+    // this where you would return command compositions with trajectories and angle to rotate
+    //    return new SwerveTrajectoryCommand("filepath/filename.json", swerveSubsystem.getHeading(), swerveSubsystem);
+    
     return Commands.print("No autonomous command configured");
+
   }
 }

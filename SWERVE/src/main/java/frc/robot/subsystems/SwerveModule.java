@@ -57,29 +57,42 @@ public class SwerveModule {
         resetEncoders();
     }
 
+
+    // getters for encoder positions
     public double getDrivePosition() {
-        return driveMotor.getSelectedSensorPosition() * DriveTrainConstants.driveEncoderToMeters;
+        return driveMotor.getSelectedSensorPosition() * DriveTrainConstants.kDriveEncoderToMeters;
     }
 
     public double getTurningPosition() {
-        return turnMotor.getSelectedSensorPosition() * DriveTrainConstants.turnEncoderToRad;
+        return turnMotor.getSelectedSensorPosition() * DriveTrainConstants.kTurnEncoderToRad;
     }
 
     public double getDriveVelocity() {
-        return driveMotor.getSelectedSensorVelocity() * DriveTrainConstants.driveEncoderToMeters;
+        return driveMotor.getSelectedSensorVelocity() * DriveTrainConstants.kDriveEncoderToMeters;
     }
 
     public double getTurnVelocity() {
-        return turnMotor.getSelectedSensorVelocity() * DriveTrainConstants.turnEncoderToRad;
+        return turnMotor.getSelectedSensorVelocity() * DriveTrainConstants.kTurnEncoderToRad;
     }
 
     public double getAbsoluteTurnEncoder() {
         this.turnMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
-        double angle = turnMotor.getSelectedSensorPosition() * DriveTrainConstants.turnEncoderToRad;
+        double angle = turnMotor.getSelectedSensorPosition() * DriveTrainConstants.kTurnEncoderToRad;
         this.turnMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
         angle -= absoluteEncoderOffset;
         return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
     }
+
+    public SwerveModuleState getState() {
+        return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getAbsoluteTurnEncoder()));
+    }
+
+    public SwerveModulePosition getPosition() {
+        return new SwerveModulePosition(getDrivePosition(), new Rotation2d(getAbsoluteTurnEncoder()));
+    }
+
+
+    // reset and stop functions
 
     public void resetEncoders() {
         driveMotor.setSelectedSensorPosition(0);
@@ -92,14 +105,8 @@ public class SwerveModule {
         turnMotor.set(0);
     }
 
-    public SwerveModuleState getState() {
-        return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
-    }
 
-    public SwerveModulePosition getPosition() {
-        return new SwerveModulePosition(getDrivePosition(), new Rotation2d(getTurningPosition()));
-    }
-
+    // apply desired states
 
     public void setDesiredState(SwerveModuleState state){
         if (Math.abs(state.speedMetersPerSecond) < 0.001) {

@@ -24,23 +24,32 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 public class SwerveTrajectoryCommand extends CommandBase {
   
-  List<Trajectory.State> trajectoryStates;
+  // store the subsystem
   SwerveSubsystem swerveSubsystem;
+
+  // holonomic drive controller initialized with three pid controllers made from constants
   HolonomicDriveController controller = new HolonomicDriveController(
     new PIDController(DriveTrainConstants.kPx, DriveTrainConstants.kIx, DriveTrainConstants.kDx), 
     new PIDController(DriveTrainConstants.kPy, DriveTrainConstants.kIy, DriveTrainConstants.kDy), 
     new ProfiledPIDController(DriveTrainConstants.kPr, DriveTrainConstants.kIr, DriveTrainConstants.kDr,
-      new TrapezoidProfile.Constraints(DriveTrainConstants.kMaxRotVelocityRad, DriveTrainConstants.kMaxRotAccelerationRad)
+      new TrapezoidProfile.Constraints(DriveTrainConstants.kMaxAngularVelocityRad, DriveTrainConstants.kMaxAngularAccelerationRad)
     ));
-  int currentState;
+
+  // info to carry out trajectory
+  List<Trajectory.State> trajectoryStates;
+  int currentState; // current index of the list of states
   Rotation2d rotation;
 
   /** Creates a new SwerveTrajectoryCommand. */
   public SwerveTrajectoryCommand(String filename, double RotationAngle, SwerveSubsystem swerveSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    Trajectory trajectory = new Trajectory();
 
-		// try to load the file trajectory into the trajectory object
+    // require subsystem
+    this.swerveSubsystem = swerveSubsystem;
+    addRequirements(swerveSubsystem);
+
+    // try to load the file trajectory into the trajectory object
+    Trajectory trajectory = new Trajectory();
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(filename);
       trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
@@ -48,11 +57,12 @@ public class SwerveTrajectoryCommand extends CommandBase {
       DriverStation.reportError("Unable to open trajectory" + filename, exception.getStackTrace());
       System.out.println("Unable to read from file " + filename);
     }
-    
     this.trajectoryStates = trajectory.getStates();
-    this.swerveSubsystem = swerveSubsystem;
-    addRequirements(swerveSubsystem);
+
+    // store current index of states
     currentState = 0;
+
+    // store desired rotation (converted to radians)
     rotation = new Rotation2d(RotationAngle * Math.PI / 180);
   }
 
@@ -63,21 +73,28 @@ public class SwerveTrajectoryCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // store the current state
     Trajectory.State goal = trajectoryStates.get(currentState);
+
+    // calculate and set the new chassis speeds
     ChassisSpeeds adjustedSpeeds = controller.calculate(swerveSubsystem.getPose(), goal, rotation);
     swerveSubsystem.setChassisSpeeds(adjustedSpeeds);
+
+    // iterate to the next state
     currentState++;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    // stop modules once finished
     swerveSubsystem.stopModules();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // if iterated through all the states, the command is finished
     if (currentState > trajectoryStates.size()){
       return true;
     }

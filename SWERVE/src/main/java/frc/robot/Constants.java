@@ -17,81 +17,23 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
  */
 public final class Constants {
 
-  public static class OIConstants {
-
+  public static class OIConstants { // input/output constants
     public static double kDeadband = 0.05;
-
-    public static int driverControllerPort = 0;
-
+    public static int kControllerPort = 0;
   }
 
   public static class DriveTrainConstants {
 
-    // max acceleration desired
-    public static double kDriveMaxAcceleration = 2.5;
-    public static double kDriveMaxAngularAccelerationDegrees = 180;
-
-    // pid to be tuned later
+    // pid for the swerve modules
     public static double kPTurning = 1;
     public static double kITurning = 0;
     public static double kDTurning = 0;
+
     public static double kPDrive = 1;
     public static double kIDrive = 0;
     public static double kDDrive = 0;
 
-    // values for each motor to be tested and recorded
-    public static boolean topLeftAbsoluteEncoderReversed = false;
-    public static double topLeftAbsoluteEncoderOffset = 0;
-    public static boolean topLeftDriveMotorReversed = false;
-    public static boolean topLeftTurnMotorReversed = false;
-
-    public static boolean topRightAbsoluteEncoderReversed = false;
-    public static double topRightAbsoluteEncoderOffset = 0;
-    public static boolean topRightDriveMotorReversed = false;
-    public static boolean topRightTurnMotorReversed = false;
-
-    public static boolean bottomLeftAbsoluteEncoderReversed = false;
-    public static double bottomLeftAbsoluteEncoderOffset = 0;
-    public static boolean bottomLeftDriveMotorReversed = false;
-    public static boolean bottomLeftTurnMotorReversed = false;
-
-    public static boolean bottomRightAbsoluteEncoderReversed = false;
-    public static double bottomRightAbsoluteEncoderOffset = 0;
-    public static boolean bottomRightDriveMotorReversed = false;
-    public static boolean bottomRightTurnMotorReversed = false;
-  
-    // ids for each motor
-    public static int topLeftDriveMotorID = 1;
-    public static int topRightDriveMotorID = 2;
-    public static int bottomLeftDriveMotorID = 3;
-    public static int bottomRightDriveMotorID = 4;
-
-    public static int topLeftTurnMotorID = 5;
-    public static int topRightTurnMotorID = 6;
-    public static int bottomLeftTurnMotorID = 7;
-    public static int bottomRightTurnMotorID = 8;
-
-    // conversion factors: multiply encoder output by these factors to get a different unit
-    public static double turnEncoderToRad = 2 * Math.PI /4096;
-    public static double driveEncoderToMeters = 1 / 2048 * Math.PI * 2; // * wheel radius * gear ratio
-  
-    // gyroscope
-    public static int gyroPort = 1;
-  
-    // max speed
-    public static double physicalMaxSpeed = 5.0;
-
-    // physical info for kinematics (change to real info)
-    public static final double trackWidth = 20;
-    public static final double wheelBase = 20;
-    public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-      new Translation2d(wheelBase/2, -trackWidth/2),
-      new Translation2d(wheelBase/2, trackWidth/2),
-      new Translation2d(-wheelBase/2, -trackWidth/2),
-      new Translation2d(-wheelBase/2, trackWidth/2)
-    );
-
-    // info for trajectory following
+    // pid for the trajectory following
     public static final double kPx = 1.0;
     public static final double kIx = 0;
     public static final double kDx = 0;
@@ -104,8 +46,59 @@ public final class Constants {
     public static final double kIr = 0;
     public static final double kDr = 0;
 
-    public static final double kMaxRotVelocityRad = 6.28;
-    public static final double kMaxRotAccelerationRad = 3.14;
+    // maximum desired chassis acceleration and velocity
+    public static double kDriveMaxAcceleration = 2.5;
+    public static double kDriveMaxVelocity = 5.0;
+
+    public static double kDriveMaxAngularAccelerationDegrees = 180;
+    public static final double kMaxAngularAccelerationRad = Math.PI/2;
+    public static final double kMaxAngularVelocityRad = 6.28;
+
+    // swerve module intialization information
+    public static int kFrontLeftDriveMotorID = 1;
+    public static int kFrontLeftTurnMotorID = 5;
+    public static boolean kFrontLeftAbsoluteEncoderReversed = false;
+    public static double kFrontLeftAbsoluteEncoderOffset = 0;
+    public static boolean kFrontLeftDriveMotorReversed = false;
+    public static boolean kFrontLeftTurnMotorReversed = false;
+
+    public static int kFrontRightDriveMotorID = 2;
+    public static int kFrontRightTurnMotorID = 6;
+    public static boolean kFrontRightAbsoluteEncoderReversed = false;
+    public static double kFrontRightAbsoluteEncoderOffset = 0;
+    public static boolean kFrontRightDriveMotorReversed = false;
+    public static boolean kFrontRightTurnMotorReversed = false;
+
+    public static int kBackLeftDriveMotorID = 3;
+    public static int kBackLeftTurnMotorID = 7;
+    public static boolean kBackLeftAbsoluteEncoderReversed = false;
+    public static double kBackLeftAbsoluteEncoderOffset = 0;
+    public static boolean kBackLeftDriveMotorReversed = false;
+    public static boolean kBackLeftTurnMotorReversed = false;
+
+    public static int kBackRightDriveMotorID = 4;
+    public static int kBackRightTurnMotorID = 8;
+    public static boolean kBackRightAbsoluteEncoderReversed = false;
+    public static double kBackRightAbsoluteEncoderOffset = 0;
+    public static boolean kBackRightDriveMotorReversed = false;
+    public static boolean kBackRightTurnMotorReversed = false;
+  
+    // encoder conversion factors
+    public static double kTurnEncoderToRad = 2 * Math.PI /4096;
+    public static double kDriveEncoderToMeters = 1 / 2048 * Math.PI * 2; // * wheel radius * gear ratio
+  
+    // gyroscope port
+    public static int kGyroPort = 1;
+  
+    // physical info for kinematics
+    public static final double kTrackWidth = 20;
+    public static final double kWheelBase = 20;
+    public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
+      new Translation2d(kWheelBase/2, -kTrackWidth/2),
+      new Translation2d(kWheelBase/2, kTrackWidth/2),
+      new Translation2d(-kWheelBase/2, -kTrackWidth/2),
+      new Translation2d(-kWheelBase/2, kTrackWidth/2)
+    );
   }
 
 }
