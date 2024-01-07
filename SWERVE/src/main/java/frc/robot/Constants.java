@@ -51,8 +51,8 @@ public final class Constants {
     public static double kDriveMaxVelocity = 5.0;
 
     public static double kDriveMaxAngularAccelerationDegrees = 180;
-    public static final double kMaxAngularAccelerationRad = Math.PI/2;
-    public static final double kMaxAngularVelocityRad = 6.28;
+    public static double kMaxAngularAccelerationRad = Math.PI/2;
+    public static double kMaxAngularVelocityRad = 6.28;
 
     // swerve module intialization information
     public static int kFrontLeftDriveMotorID = 1;
